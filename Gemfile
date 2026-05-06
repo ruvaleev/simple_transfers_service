@@ -33,22 +33,30 @@ gem "bootsnap", require: false
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", require: false
+gem "strong_migrations"
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem 'debug', platforms: %i[ mri windows ], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
+  gem "bundler-audit"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 end
 
 group :development do
+  gem "database_consistency", "~> 2.0.4", require: false
+  gem "rubocop", ">= 1.82.1", require: false
+  gem "rubocop-factory_bot", "~> 2.28", require: false
+  gem "rubocop-rails", ">= 2.33.4", require: false
+  gem "rubocop-rspec", "~> 3.9.0", require: false
+  gem "rubocop-rspec_rails", "~> 2.32"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
