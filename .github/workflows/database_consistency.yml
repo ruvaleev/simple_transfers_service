@@ -44,11 +44,13 @@ jobs:
         key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gem-
+    - name: Bundle config
+      run: bundle config set path 'vendor/bundle'
     - name: Install dependencies
       run: |
         gem update --system
         gem install bundler bundler-audit
-        bundle install --jobs 4 --retry 3 --path vendor/bundle
+        bundle install --jobs 4 --retry 3
     - name: Prepare database
       env:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/simple_transfers_service_test
