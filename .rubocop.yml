@@ -55,27 +55,14 @@ Lint/StructNewOverride:
   Enabled: true
 Metrics/BlockLength:
   Exclude:
-    - 'app/api/v1/*.rb'
-    - 'app/api/v1/**/*.rb'
     - 'config/**/*'
-    - 'spec/**/*'
-Rails/SkipsModelValidations:
-  Exclude:
     - 'spec/**/*'
 RSpec/ExampleLength:
   Max: 10
-RSpec/MultipleExpectations:
-  Exclude:
-    - 'spec/mailers/**/*'
 RSpec/MultipleMemoizedHelpers:
   Max: 15
 RSpec/NestedGroups:
   Max: 5
-RSpec/SpecFilePathFormat:
-  Exclude:
-    - 'spec/api/v1/auth_api/*_spec.rb'
-    - 'spec/api/v1/diaries_api/*_spec.rb'
-    - 'spec/api/v1/foods_api/*_spec.rb'
 Style/AccessorGrouping:
   Enabled: true
 Style/ArrayCoercion:
@@ -112,3 +99,5 @@ Style/RedundantRegexpEscape:
   Enabled: true
 Style/SlicingWithRange:
   Enabled: true
+Style/StringLiterals:
+  EnforcedStyle: single_quotes

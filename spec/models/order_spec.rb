@@ -1,0 +1,52 @@
+require 'rails_helper'
+
+RSpec.describe Order do
+  subject(:order) { build(:order) }
+
+  it { is_expected.to belong_to(:destination_account).class_name(:Account) }
+  it { is_expected.to belong_to(:initiator) }
+  it { is_expected.to belong_to(:source_account).class_name(:Account) }
+
+  it { is_expected.to have_many(:ledger_entries).dependent(:restrict_with_exception) }
+
+  it { is_expected.to validate_numericality_of(:amount).is_greater_than(0) }
+  it { is_expected.to validate_presence_of(:idempotency_key) }
+  it { is_expected.to validate_uniqueness_of(:idempotency_key) }
+
+  describe "validations" do
+    let(:user) { create(:user) }
+    let(:source_account) { create(:account, user:) }
+
+    context 'with :destination_account' do
+      subject(:order) { build(:order, initiator: user, source_account:, destination_account:) }
+
+      context 'when :destination_account matches :source_account' do
+        let(:destination_account) { source_account }
+
+        it { is_expected.not_to be_valid }
+      end
+
+      context "when :destination_account doesn't match :source_account" do
+        let(:destination_account) { create(:account) }
+
+        it { is_expected.to be_valid }
+      end
+    end
+
+    context 'with :source_account' do
+      subject(:order) { build(:order, initiator:, source_account:) }
+
+      context 'when :initiator is the user of source account' do
+        let(:initiator) { user }
+
+        it { is_expected.to be_valid }
+      end
+
+      context 'when :initiator is not the user of source account' do
+        let(:initiator) { create(:user) }
+
+        it { is_expected.not_to be_valid }
+      end
+    end
+  end
+end

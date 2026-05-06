@@ -65,4 +65,5 @@ end
 
 group :test do
   gem "factory_bot_rails", require: false
+  gem "shoulda-matchers", "~> 7.0"
 end
