@@ -13,7 +13,7 @@ Rails.application.configure do
     # (which sets inverse_of for :user) and via `Order.includes(... :user)`,
     # Bullet's inverse-of guard suppresses the call registration on the second
     # object, making the legitimately-used preload look unused.
-    Bullet.add_safelist type: :unused_eager_loading, class_name: "Account", association: :user
+    Bullet.add_safelist type: :unused_eager_loading, class_name: 'Account', association: :user
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
@@ -25,10 +25,10 @@ Rails.application.configure do
   # this is usually not necessary, and can slow down your test suite. However, it's
   # recommended that you enable it in continuous integration systems to ensure eager
   # loading is working properly before deploying your code.
-  config.eager_load = ENV["CI"].present?
+  config.eager_load = ENV['CI'].present?
 
   # Configure public file server for tests with cache-control for performance.
-  config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
+  config.public_file_server.headers = { 'cache-control' => 'public, max-age=3600' }
 
   # Show full error reports.
   config.consider_all_requests_local = true
