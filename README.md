@@ -1,24 +1,37 @@
-# README
+# Simple Transfers Service
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Simple service for Alice and Bob to transfer money.
 
-Things you may want to cover:
+When you create an order, it is assumed to be in processing. The initiator can confirm or cancel it — emulating outcomes that in real life might happen anywhere in between Alice and Bob.
 
-* Ruby version
+## Installation
 
-* System dependencies
+```bash
+bundle install
+bin/rails db:create db:migrate db:seed
+bin/rails s
+```
 
-* Configuration
+## Tests
 
-* Database creation
+```bash
+bundle exec rspec
+```
 
-* Database initialization
+## Linters
 
-* How to run the test suite
+```bash
+bundle exec rubocop
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## Database Consistency
 
-* Deployment instructions
+```bash
+bundle exec database_consistency
+```
 
-* ...
+## Bundle Audit
+
+```bash
+bundle exec bundler-audit --update
+```
