@@ -1,8 +1,10 @@
 <% content_for :title, "Order ##{@order.id}" %>
 
 <%
-  is_outgoing = @order.source_account_id == current_user.id
-  direction_label = @order.internal? ? "Internal" : (is_outgoing ? "Outgoing" : "Incoming")
+  is_incoming = @order.destination_account.user_id == current_user
+  is_outgoing = @order.source_account.user_id == current_user
+  is_internal = is_incoming && is_outgoing
+  direction_label = is_internal ? "Internal" : (is_outgoing ? "Outgoing" : "Incoming")
 %>
 
 <div class="orders-header">

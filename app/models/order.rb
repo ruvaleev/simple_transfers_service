@@ -20,10 +20,6 @@ class Order < ApplicationRecord
       .or(where(destination_account_id: account_ids))
   }
 
-  def internal?
-    destination_account_id === source_account_id
-  end
-
   private
 
   def destination_account_is_valid

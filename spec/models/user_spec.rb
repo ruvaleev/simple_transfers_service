@@ -6,7 +6,7 @@ RSpec.describe User do
   it { is_expected.to have_many(:accounts).dependent(:restrict_with_exception) }
 
   it {
-    expect(subject).to have_many(:initiated_orders)
+    expect(user).to have_many(:initiated_orders)
       .class_name(:Order).with_foreign_key(:initiator_id).dependent(:restrict_with_exception)
   }
 

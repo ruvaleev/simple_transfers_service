@@ -62,23 +62,4 @@ RSpec.describe Order do
     it { is_expected.to include(outgoing_order, incoming_order) }
     it { is_expected.not_to include(another_order) }
   end
-
-  describe '#internal?' do
-    subject(:internal?) { order.internal? }
-
-    let(:order) { build(:order, destination_account_id:, source_account_id:) }
-    let(:source_account_id) { rand(1_000) }
-
-    context 'when :destination_account_id is not equal to :source_account_id' do
-      let(:destination_account_id) { source_account_id + 1 }
-
-      it { is_expected.to be_falsy }
-    end
-
-    context 'when :destination_account_id is equal to :source_account_id' do
-      let(:destination_account_id) { source_account_id }
-
-      it { is_expected.to be_truthy }
-    end
-  end
 end

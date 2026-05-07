@@ -34,7 +34,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_06_085085) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_ledger_entries_on_account_id"
     t.index ["order_id", "direction", "entry_type"], name: "index_ledger_entries_on_order_id_and_direction_and_entry_type", unique: true
-    t.index ["order_id"], name: "index_ledger_entries_on_order_id"
     t.check_constraint "amount >= 0::numeric", name: "ledger_entries_amount_positive"
   end
 
