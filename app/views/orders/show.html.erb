@@ -1,0 +1,77 @@
+<% content_for :title, "Order ##{@order.id}" %>
+
+<%
+  is_outgoing = @order.source_account_id == current_user.id
+  direction_label = @order.internal? ? "Internal" : (is_outgoing ? "Outgoing" : "Incoming")
+%>
+
+<div class="orders-header">
+  <h2>Order #<%= @order.id %></h2>
+  <%= link_to "Back to orders", orders_path, class: "button-link" %>
+</div>
+
+<section class="order-card">
+  <dl>
+    <dt>Status</dt>
+    <dd><span class="status status-<%= @order.status %>"><%= @order.status %></span></dd>
+
+    <dt>Direction</dt>
+    <dd><%= direction_label %></dd>
+
+    <dt>From</dt>
+    <dd><%= @order.source_account.name %> (<%= @order.source_account.user.name %>)</dd>
+
+    <dt>To</dt>
+    <dd><%= @order.destination_account.name %> (<%= @order.destination_account.user.name %>)</dd>
+
+    <dt>Amount</dt>
+    <dd><%= number_with_precision(@order.amount, precision: 2) %></dd>
+
+    <dt>Initiator</dt>
+    <dd><%= @order.initiator.name %></dd>
+
+    <dt>Created</dt>
+    <dd><%= @order.created_at.strftime("%Y-%m-%d %H:%M:%S") %></dd>
+  </dl>
+
+  <% if is_outgoing %>
+    <div class="actions">
+      <% if @order.created? %>
+        <%= button_to "Confirm", confirm_order_path(@order), method: :post, data: { turbo_confirm: "Confirm transfer of #{@order.amount}?" } %>
+      <% end %>
+      <% if @order.created? || @order.successful? %>
+        <%= button_to "Cancel", cancel_order_path(@order), method: :post, data: { turbo_confirm: "Cancel order ##{@order.id}?" }, class: "danger" %>
+      <% end %>
+    </div>
+  <% end %>
+</section>
+
+<section class="ledger">
+  <h3>Ledger entries</h3>
+  <% if @ledger_entries.empty? %>
+    <p class="empty">No ledger entries yet — order has not been settled.</p>
+  <% else %>
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Account</th>
+          <th>Direction</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Recorded at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @ledger_entries.each do |entry| %>
+          <tr class="entry entry-<%= entry.entry_type %>">
+            <td><%= entry.account.name %> (<%= entry.account.user.name %>)</td>
+            <td><%= entry.direction %></td>
+            <td><%= entry.entry_type %></td>
+            <td><%= number_with_precision(entry.amount, precision: 2) %></td>
+            <td><%= entry.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>

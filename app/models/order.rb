@@ -14,6 +14,16 @@ class Order < ApplicationRecord
   validate :destination_account_is_valid
   validate :source_account_is_valid
 
+  scope :by_user_id, ->(user_id) {
+    account_ids = Account.where(user_id: user_id).select(:id)
+    where(source_account_id: account_ids)
+      .or(where(destination_account_id: account_ids))
+  }
+
+  def internal?
+    destination_account_id === source_account_id
+  end
+
   private
 
   def destination_account_is_valid

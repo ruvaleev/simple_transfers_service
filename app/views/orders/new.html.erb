@@ -1,0 +1,41 @@
+<% content_for :title, "New transfer" %>
+
+<h2>New transfer</h2>
+
+<%= form_with model: @order, url: orders_path, local: true, class: "order-form" do |f| %>
+  <% if @order.errors.any? %>
+    <div class="errors">
+      <ul>
+        <% @order.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :idempotency_key, value: @idempotency_key %>
+
+  <div class="field">
+    <%= f.label :source_account_id, "From (your account)" %>
+    <%= f.select :source_account_id,
+          @source_accounts.map { |a| ["#{a.name} (balance: #{number_with_precision(a.balance, precision: 2)})", a.id] },
+          {}, required: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :destination_account_id, "To" %>
+    <%= f.select :destination_account_id,
+          @destination_accounts.map { |a| ["#{a.user.name} — #{a.name}", a.id] },
+          { include_blank: "Select recipient account" }, required: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount %>
+    <%= f.number_field :amount, step: "0.01", min: "0.01", required: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create transfer", data: { turbo: false } %>
+    <%= link_to "Cancel", orders_path, class: "button-link" %>
+  </div>
+<% end %>

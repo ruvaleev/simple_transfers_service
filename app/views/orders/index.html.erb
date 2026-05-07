@@ -1,0 +1,44 @@
+<% content_for :title, "Orders" %>
+
+<section class="accounts">
+  <h2>Your accounts</h2>
+  <ul class="accounts-list">
+    <% @accounts.find_each do |account| %>
+      <li>
+        <strong><%= account.name %></strong>
+        <span class="balance"><%= number_with_precision(account.balance, precision: 2) %></span>
+      </li>
+    <% end %>
+  </ul>
+</section>
+
+<section class="orders">
+  <div class="orders-header">
+    <h2>Orders</h2>
+    <%= link_to "New transfer", new_order_path, class: "button" %>
+  </div>
+
+  <% if @orders.empty? %>
+    <p class="empty">No orders yet.</p>
+  <% else %>
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Direction</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <%= render "order", order: order %>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>

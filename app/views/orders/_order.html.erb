@@ -1,0 +1,21 @@
+<%
+  is_outgoing = @accounts.ids.include?(order.source_account_id)
+  direction_label = order.internal? ? "Internal" : (is_outgoing ? "Outgoing" : "Incoming")
+%>
+<tr class="order order-<%= order.status %>" id="<%= dom_id(order) %>">
+  <td><%= link_to "##{order.id}", order_path(order) %></td>
+  <td><%= direction_label %></td>
+  <td><%= order.source_account.name %> (<%= order.source_account.user.name %>)</td>
+  <td><%= order.destination_account.name %> (<%= order.destination_account.user.name %>)</td>
+  <td><%= number_with_precision(order.amount, precision: 2) %></td>
+  <td><span class="status status-<%= order.status %>"><%= order.status %></span></td>
+  <td><%= order.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+  <td class="actions">
+    <% if order.created? && is_outgoing %>
+      <%= button_to "Confirm", confirm_order_path(order), method: :post, data: { turbo_confirm: "Confirm transfer of #{order.amount}?" } %>
+    <% end %>
+    <% if (order.created? || order.successful?) && is_outgoing %>
+      <%= button_to "Cancel", cancel_order_path(order), method: :post, data: { turbo_confirm: "Cancel order ##{order.id}?" }, class: "danger" %>
+    <% end %>
+  </td>
+</tr>

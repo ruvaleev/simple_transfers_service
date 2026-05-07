@@ -27,8 +27,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_06_085085) do
   create_table "ledger_entries", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "order_id", null: false
-    t.integer "direction", null: false
-    t.integer "entry_type", null: false
+    t.integer "direction", default: 0, null: false
+    t.integer "entry_type", default: 0, null: false
     t.decimal "amount", precision: 19, scale: 4, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -45,7 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_06_085085) do
     t.bigint "destination_account_id", null: false
     t.integer "status", default: 0, null: false
     t.integer "kind", default: 0, null: false
-    t.decimal "amount", precision: 19, scale: 4, null: false
+    t.decimal "amount", precision: 19, scale: 4, default: "0.0", null: false
     t.string "idempotency_key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

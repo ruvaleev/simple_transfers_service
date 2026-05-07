@@ -6,7 +6,7 @@ class CreateOrders < ActiveRecord::Migration[8.0]
       t.references :destination_account, null: false, foreign_key: { to_table: :accounts }
       t.integer :status, null: false, default: 0
       t.integer :kind, null: false, default: 0
-      t.decimal :amount, precision: 19, scale: 4, null: false
+      t.decimal :amount, precision: 19, scale: 4, null: false, default: 0
       t.string :idempotency_key, null: false, index: { unique: true }
 
       t.timestamps
