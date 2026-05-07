@@ -1,6 +1,7 @@
 <%
-  is_outgoing = @accounts.ids.include?(order.source_account_id)
-  is_incoming = @accounts.ids.include?(order.destination_account_id)
+  accounts_ids = @accounts.map(&:id)
+  is_outgoing = accounts_ids.include?(order.source_account_id)
+  is_incoming = accounts_ids.include?(order.destination_account_id)
   is_internal = is_incoming && is_outgoing
   direction_label = is_internal ? "Internal" : (is_outgoing ? "Outgoing" : "Incoming")
 %>

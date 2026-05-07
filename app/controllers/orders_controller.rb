@@ -16,8 +16,10 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.by_user_id(current_user.id).find(params[:id])
-    @ledger_entries = @order.ledger_entries.includes(account: :user).order(:created_at)
+    @order = Order.by_user_id(current_user.id)
+                  .includes(:initiator, source_account: :user, destination_account: :user)
+                  .find(params[:id])
+    @ledger_entries = @order.ledger_entries.includes(account: :user).order(:created_at).load
   end
 
   def create
